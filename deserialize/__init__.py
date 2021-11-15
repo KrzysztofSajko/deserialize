@@ -231,9 +231,9 @@ def _deserialize(
         return finalize(data)
     
     # Handle a case when int and float are mismatched
-    if class_reference is int and issubclass(data, float):
+    if class_reference is int and isinstance(data, float):
         return finalize(int(data))
-    if class_reference is float and issubclass(data, int):
+    if class_reference is float and isinstance(data, int):
         return finalize(float(data))
 
     raise DeserializeException(
