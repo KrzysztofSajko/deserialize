@@ -229,6 +229,12 @@ def _deserialize(
     # Whatever we have left now is either correct, or invalid
     if isinstance(data, class_reference):
         return finalize(data)
+    
+    # Handle a case when int and float are mismatched
+    if class_reference is int and issubclass(data, float):
+        return finalize(int(data))
+    if class_reference is float and issubclass(data, int):
+        return finalize(float(data))
 
     raise DeserializeException(
         f"Cannot deserialize '{type(data)}' to '{class_reference}' for '{debug_name}'"
